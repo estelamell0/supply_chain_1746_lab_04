@@ -1,0 +1,47 @@
+services:
+  # Registry OCI Local para armazenamento de imagens, SBOMs anexados e assinaturas Cosign
+  registry:
+    image: registry:2
+    container_name: supply_chain_registry
+    ports:
+      - "5000:5000"
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: "true"
+    networks:
+      lab_net:
+        aliases:
+          - registry
+          - localhost
+
+  # Container de trabalho com ferramentas de DevSecOps pré-instaladas
+  lab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: supply-chain-lab04:latest
+    container_name: supply_chain_lab04
+    working_dir: /workspace
+    extra_hosts:
+      - "localhost:host-gateway"
+    environment:
+      - USER=ci-runner-bot
+      - REGISTRY_HOST=localhost:5000
+      - DOCKER_CLI_EXPERIMENTAL=enabled
+      - COSIGN_EXPERIMENTAL=1
+      - SYFT_CHECK_FOR_APP_UPDATE=false
+      - TRIVY_SKIP_VERSION_CHECK=true
+      - TRIVY_DISABLE_TELEMETRY=true
+    volumes:
+      - .:/workspace
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - lab_net
+    depends_on:
+      - registry
+    stdin_open: true
+    tty: true
+
+networks:
+  lab_net:
+    driver: bridge
+

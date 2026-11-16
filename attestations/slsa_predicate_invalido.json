@@ -1,0 +1,49 @@
+{
+  "buildDefinition": {
+    "buildType": "https://actions.github.com/buildtypes/workflow/v1",
+    "externalParameters": {
+      "workflow": {
+        "ref": "refs/heads/feature-bypass",
+        "repository": "https://github.com/empresa-fintech/payment-api",
+        "path": ".github/workflows/golden_pipeline_capstone.yml"
+      }
+    },
+    "internalParameters": {
+      "github": {
+        "event_name": "push",
+        "actor": "devsecops-lead",
+        "runner_environment": "github-hosted",
+        "runner_os": "Linux"
+      }
+    },
+    "resolvedDependencies": [
+      {
+        "uri": "git+https://github.com/empresa-fintech/payment-api@refs/heads/main",
+        "digest": {
+          "gitCommit": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      {
+        "uri": "docker://node:18-alpine",
+        "digest": {
+          "sha256": "a251e60f0896752762261ea944f248ecfa7616f7be2d37c7ee7531737be70487"
+        }
+      }
+    ]
+  },
+  "runDetails": {
+    "builder": {
+      "id": "https://untrusted-laptop.local/manual-build"
+    },
+    "metadata": {
+      "invocationId": "https://github.com/empresa-fintech/payment-api/actions/runs/1234567890",
+      "startedOn": "2026-11-11T14:15:00Z",
+      "finishedOn": "2026-11-11T14:18:30Z"
+    },
+    "byproducts": [
+      {
+        "uri": "https://empresa.corp.internal/logs/build-1234567890.log"
+      }
+    ]
+  }
+}
